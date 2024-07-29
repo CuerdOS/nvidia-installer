@@ -1,0 +1,74 @@
+#!/bin/bash
+
+# Function to display the menu and get the user's choice
+function show_menu {
+    echo "Select the NVIDIA driver version you want to install:"
+    echo "1) NVIDIA Driver 555"
+    echo "2) NVIDIA Driver 535"
+    echo "3) Exit"
+    read -p "Enter your choice (1-3): " choice
+}
+
+# Function to install prerequisites
+function install_prerequisites {
+    echo "Installing prerequisites..."
+    sudo apt-fast update
+    sudo apt-fast install -y build-essential dkms linux-headers-$(uname -r)
+}
+
+# Function to add the NVIDIA repository
+function add_nvidia_repository {
+    echo "Adding the NVIDIA repository..."
+    sudo sed -i '/^deb/ s/$/ non-free contrib/' /etc/apt/sources.list
+}
+
+# Function to install driver 555
+function install_driver_555 {
+    echo "Installing NVIDIA Driver 555..."
+    sudo cp /usr/share/nvidia-installer/nvidia-drivers.list /etc/apt/sources.list.d/
+    sudo cp /usr/share/nvidia-installer/keyrings/nvidia-drivers.gpg /usr/share/keyrings/
+    sudo apt-fast update
+    sudo apt-fast install -y nvidia-driver
+}
+
+# Function to install driver 535
+function install_driver_535 {
+    echo "Installing NVIDIA Driver 535..."
+    sudo apt-fast update
+    sudo apt-fast install -y nvidia-driver
+}
+
+# Main script
+clear
+echo "Welcome to the NVIDIA driver installer for CuerdOS Linux"
+
+# Display menu and get user's choice
+while true; do
+    show_menu
+    case $choice in
+        1)
+            install_prerequisites
+            add_nvidia_repository
+            install_driver_555
+            break
+            ;;
+        2)
+            install_prerequisites
+            add_nvidia_repository
+            install_driver_535
+            break
+            ;;
+        3)
+            echo "Exiting the script."
+            exit 0
+            ;;
+        *)
+            echo "Invalid option, please try again."
+            ;;
+    esac
+done
+
+# Completion message
+echo "The installation of the NVIDIA driver is complete."
+echo "Please restart your system for the changes to take effect."
+
