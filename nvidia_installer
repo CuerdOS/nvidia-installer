@@ -23,7 +23,7 @@ function add_nvidia_repository {
 }
 
 # Function to install driver 555
-function install_driver_555 {
+function install_driver_latest {
     echo "Installing NVIDIA Driver Latest..."
     sudo cp /usr/share/nvidia-installer/nvidia-drivers.list /etc/apt/sources.list.d/
     sudo cp /usr/share/nvidia-installer/keyrings/nvidia-drivers.gpg /usr/share/keyrings/
@@ -49,7 +49,7 @@ while true; do
         1)
             install_prerequisites
             add_nvidia_repository
-            install_driver_555
+            install_driver_latest
             break
             ;;
         2)
